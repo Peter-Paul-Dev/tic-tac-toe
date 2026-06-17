@@ -1,16 +1,28 @@
-const gameboard = (function gameboard () {
+const Gameboard = (function gameboard () {
     let board = [];
 
     for (let i = 1; i < 10; i++) {
         const gridCell = {
             number: i,
-            mark: "none"
+            mark: " "
         };
         board.push(gridCell);
-        
     }
-
+    
     return board;
 })();
 
-console.log(gameboard);
+console.log(Gameboard);
+
+const players = [
+    {
+        name: playerOne,
+        mark: "X"
+    },
+
+    {
+        name: playerTwo,
+        mark: "O"
+    },
+]
+console.log(players);
