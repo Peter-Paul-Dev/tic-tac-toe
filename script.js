@@ -1,12 +1,16 @@
-function gameboard () {
-    const rows = 3;
-    const columns = 3;
-    const board = [];
+const gameboard = (function gameboard () {
+    let board = [];
 
-    for (let i = 0; i < rows; i++) {
-        board[i] = [];
-        for (let j = 0; j < columns; j++) {
-            board[i].push(Cell());
-        }
+    for (let i = 1; i < 10; i++) {
+        const gridCell = {
+            number: i,
+            mark: "none"
+        };
+        board.push(gridCell);
+        
     }
-}
+
+    return board;
+})();
+
+console.log(gameboard);
