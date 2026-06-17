@@ -10,18 +10,9 @@ const Gameboard = (function gameboard () {
     }
 
     const getBoard = () => board;
-
-    const markCell = function (gridCell, player) {
-        const availableCells = board
-                               .filter((gridCell) => gridCell.mark.getValue() === "")
-                               .map((gridCell) => gridCell.mark);
-
-        if (!availableCells.length) {
-            return;
-        }
-    }
     
     return board;
+
 })();
 
 const players = [
@@ -34,11 +25,23 @@ const players = [
         name: "playerTwo",
         mark: "O"
     },
-]
-console.log(players);
+];
 
 const gameController = function () {
     let activePlayer = players[0];
+
+    function playerMarkCell (playerInput) {
+        if (playerInput == Gameboard[playerInput - 1].number) {
+            if (activePlayer.mark === "X") {
+            Gameboard[playerInput - 1].mark = "X";
+            activePlayer = players[1];
+        } 
+            else {
+                Gameboard[playerInput-1].mark = "O";
+                activePlayer = players[0];
+            }
+        }
+    }
 }
 
 console.log(gameController());
