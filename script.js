@@ -4,25 +4,41 @@ const Gameboard = (function gameboard () {
     for (let i = 1; i < 10; i++) {
         const gridCell = {
             number: i,
-            mark: " "
+            mark: ""
         };
         board.push(gridCell);
+    }
+
+    const getBoard = () => board;
+
+    const markCell = function (gridCell, player) {
+        const availableCells = board
+                               .filter((gridCell) => gridCell.mark.getValue() === "")
+                               .map((gridCell) => gridCell.mark);
+
+        if (!availableCells.length) {
+            return;
+        }
     }
     
     return board;
 })();
 
-console.log(Gameboard);
-
 const players = [
     {
-        name: playerOne,
+        name: "playerOne",
         mark: "X"
     },
 
     {
-        name: playerTwo,
+        name: "playerTwo",
         mark: "O"
     },
 ]
 console.log(players);
+
+const gameController = function () {
+    let activePlayer = players[0];
+}
+
+console.log(gameController());
