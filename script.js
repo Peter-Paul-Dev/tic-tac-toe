@@ -8,10 +8,8 @@ const Gameboard = (function gameboard () {
         };
         board.push(gridCell);
     }
-
-    const getBoard = () => board;
     
-    return board;
+    return {board};
 
 })();
 
@@ -27,7 +25,7 @@ const players = [
     },
 ];
 
-const gameController = function () {
+const gameController = (function () {
     let activePlayer = players[0];
 
     function playerMarkCell (playerInput) {
@@ -42,6 +40,6 @@ const gameController = function () {
             }
         }
     }
-}
 
-console.log(gameController());
+    return {playerMarkCell};
+})();
