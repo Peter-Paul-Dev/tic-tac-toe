@@ -1,16 +1,19 @@
 const Gameboard = (function gameboard () {
     let board = [];
+    const rows = 3;
+    const columns = 3;
 
-    for (let i = 1; i < 10; i++) {
-        const gridCell = {
-            number: i,
-            mark: ""
-        };
-        board.push(gridCell);
+    for (let i = 0; i < rows; i++) {
+        board[i] = [];
+
+        for (let j = 0; j < columns; j++) {
+            gridColumn = {
+                mark: ""
+            }
+            board[i].push(gridColumn);
     }
-    
+  }
     return {board};
-
 })();
 
 const players = [
@@ -28,18 +31,21 @@ const players = [
 const gameController = (function () {
     let activePlayer = players[0];
 
-    function playerMarkCell (playerInput) {
-        if (playerInput == Gameboard[playerInput - 1].number) {
-            if (activePlayer.mark === "X") {
-            Gameboard[playerInput - 1].mark = "X";
+    function playerMarkCell (rowInput, columnInput) {
+        if (activePlayer.mark == "X") {
+            Gameboard.board[rowInput][columnInput].mark = "X";
             activePlayer = players[1];
-        } 
-            else {
-                Gameboard[playerInput-1].mark = "O";
-                activePlayer = players[0];
-            }
+            return Gameboard.board;
+
+        } else {
+            Gameboard.board[rowInput][columnInput].mark = "O";
+            activePlayer = players[0];
+            return Gameboard.board;
         }
     }
 
     return {playerMarkCell};
 })();
+
+console.log(gameController.playerMarkCell(0, 0));
+console.log(gameController.playerMarkCell(0, 1));
