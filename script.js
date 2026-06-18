@@ -99,7 +99,13 @@ const gameController = (function () {
         ]
 
         if (winningConditions.some(value => value == true)) {
-            console.log(`${activePlayer.name} is the winner!`)
+            console.log(`${activePlayer.name} is the winner!`);
+
+            Gameboard.board.map(outerArr => 
+                outerArr.map(innerArr => 
+                   innerArr.mark = ""
+                )
+            )
         }
     }
 
@@ -108,6 +114,6 @@ const gameController = (function () {
 
 console.log(gameController.playerMarkCell(0, 0));
 console.log(gameController.playerMarkCell(2, 0));
-console.log(gameController.playerMarkCell(0, 1));
+console.log(gameController.playerMarkCell(1, 1));
 console.log(gameController.playerMarkCell(2, 1));
-console.log(gameController.playerMarkCell(0, 2));
+console.log(gameController.playerMarkCell(2, 2));
