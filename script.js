@@ -32,19 +32,40 @@ const gameController = (function () {
     let activePlayer = players[0];
 
     function playerMarkCell (rowInput, columnInput) {
-        if (activePlayer.mark == "X") {
-            Gameboard.board[rowInput][columnInput].mark = "X";
-            checkWinner();
-            activePlayer = players[1];
-            return Gameboard.board;
+        const selectedCell = Gameboard.board[rowInput][columnInput];
 
-        } else {
-            Gameboard.board[rowInput][columnInput].mark = "O";
-            activePlayer = players[0];
+        if (selectedCell.mark !== "") {
+            console.log("This cell is already marked");
+            return;
+        }
+
+        if (activePlayer == players [0]) {
+            selectedCell.mark = activePlayer.mark;
             checkWinner();
-            return Gameboard.board;
+            console.log(Gameboard.board);
+            
+            
+        } else if (activePlayer == players[1]) {
+            selectedCell.mark = "O";
+            checkWinner();
+            console.log(Gameboard.board);
+            
         }
     }
+
+    function changeActivePlayer () {
+        if (activePlayer == players[0]) {
+            activePlayer = players [1];
+            return activePlayer;
+        }
+
+        if (activePlayer == players[1]) {
+            activePlayer = players[0];
+            return activePlayer;
+        }
+    }
+
+    let roundResult = "";
 
     function checkWinner() {
         const winningConditions = [
@@ -63,29 +84,20 @@ const gameController = (function () {
                     Gameboard.board[2][1].mark == activePlayer.mark &&
                     Gameboard.board[2][2].mark == activePlayer.mark,
 
-            winConditionColumn1 = Gameboard.board.some(
-                cell => {
+            winConditionColumn1 = 
                     Gameboard.board[0][0].mark == activePlayer.mark &&
                     Gameboard.board[1][0].mark == activePlayer.mark &&
-                    Gameboard.board[2][0].mark == activePlayer.mark 
-                }
-            ),
+                    Gameboard.board[2][0].mark == activePlayer.mark,
 
-            winConditionColumn2 = Gameboard.board.some(
-                cell => {
+            winConditionColumn2 = 
                     Gameboard.board[0][1].mark == activePlayer.mark &&
                     Gameboard.board[1][1].mark == activePlayer.mark &&
-                    Gameboard.board[2][1].mark == activePlayer.mark 
-                }
-            ),
+                    Gameboard.board[2][1].mark == activePlayer.mark,
 
-            winConditionColumn3 = Gameboard.board.some(
-                cell => {
+            winConditionColumn3 = 
                     Gameboard.board[0][2].mark == activePlayer.mark &&
                     Gameboard.board[1][2].mark == activePlayer.mark &&
-                    Gameboard.board[2][2].mark == activePlayer.mark 
-                }
-            ),
+                    Gameboard.board[2][2].mark == activePlayer.mark,
 
             winConditionDiagonal1 = 
                     Gameboard.board[0][0].mark == activePlayer.mark &&
@@ -98,14 +110,23 @@ const gameController = (function () {
                     Gameboard.board[2][0].mark == activePlayer.mark,
         ]
 
+         
         if (winningConditions.some(value => value == true)) {
-            console.log(`${activePlayer.name} is the winner!`);
+
+            activePlayer = players[0];
 
             Gameboard.board.map(outerArr => 
                 outerArr.map(innerArr => 
                    innerArr.mark = ""
                 )
             )
+
+            roundResult = `${activePlayer.name} is the winner!`;
+            console.log(roundResult);
+            return roundResult;
+
+        } else {
+            changeActivePlayer();
         }
     }
 
@@ -117,3 +138,4 @@ console.log(gameController.playerMarkCell(2, 0));
 console.log(gameController.playerMarkCell(1, 1));
 console.log(gameController.playerMarkCell(2, 1));
 console.log(gameController.playerMarkCell(2, 2));
+
