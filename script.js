@@ -7,12 +7,14 @@ const Gameboard = (function gameboard () {
         board[i] = [];
 
         for (let j = 0; j < columns; j++) {
-            gridCell = {
-                mark: ""
+           let gridCell = {
+                mark: "",
+                coordinate: `${i}, ${j}`
             }
             board[i].push(gridCell);
+        }
     }
-  }
+
     return {board};
 })();
 
@@ -133,9 +135,20 @@ const gameController = (function () {
     return {playerMarkCell, checkWinner};
 })();
 
-console.log(gameController.playerMarkCell(0, 0));
-console.log(gameController.playerMarkCell(2, 0));
-console.log(gameController.playerMarkCell(1, 1));
-console.log(gameController.playerMarkCell(2, 1));
-console.log(gameController.playerMarkCell(2, 2));
+const container = document.querySelector(".container");
 
+const displayController = (function () {
+    const rows = 3;
+    const columns = 3;
+
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < columns; j++) {
+            let coordinateOfTile = Gameboard.board[i][j].coordinate;
+
+            const tile = document.createElement("div");
+            tile.classList.add("tile");
+            tile.dataset.coordinate = coordinateOfTile;
+            container.appendChild(tile);
+    }
+  }
+})();
