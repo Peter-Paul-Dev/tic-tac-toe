@@ -32,7 +32,8 @@ const players = [
 ];
 
 const gameController = (function () {
-    let activePlayer = players[0]
+    let activePlayer = players[0];
+    let roundResult = "";
 
     function playerMarkCell (rowInput, columnInput) {
         const selectedCell = Gameboard.board[rowInput][columnInput];
@@ -64,9 +65,7 @@ const gameController = (function () {
         }
     }
 
-    let roundResult = "";
-
-    function checkWinner() {
+    function checkWinner(para) {
         const winningConditions = [
             winConditionRow1 = 
                     Gameboard.board[0][0].mark == activePlayer.mark &&
@@ -110,23 +109,19 @@ const gameController = (function () {
         ]
          
         if (winningConditions.some(value => value == true)) {
-
+            roundResult = `${activePlayer.name} is the winner!`;
             activePlayer = players[0];
 
-            Gameboard.board.forEach(outerArr => 
-                outerArr.forEach(innerArr => 
-                   innerArr.mark = ""
-                )
-            )
-
-            roundResult = `${activePlayer.name} is the winner!`;
+            Gameboard.board.forEach(outerArr => outerArr.forEach(innerArr => innerArr.mark = ""));
             console.log(roundResult);
-            return roundResult;
+            para.textContent = roundResult;
         } 
         
         else {
             changeActivePlayer();
         }
+
+        return roundResult;
     }
 
     return {playerMarkCell, checkWinner, changeActivePlayer, activePlayer, roundResult};
@@ -153,19 +148,20 @@ const displayController = (function () {
         }
     }
 
+    const resultOfGame = document.createElement("p");
+    container.appendChild(resultOfGame);
+
+
     function clearBoard() {
-            Gameboard.board.forEach(outerArr => 
-                outerArr.forEach(innerArr => 
-                   innerArr.mark = ""
-                )
-            );
+            Gameboard.board.forEach(outerArr => outerArr.forEach(innerArr => innerArr.mark = ""));
             boardTiles.forEach(tile => tile.textContent = "");
+            resultOfGame.textContent = "";
         }
 
      boardTiles.forEach(tile => tile.addEventListener("click", () => {
         gameController.playerMarkCell(tile.dataset.rowCoor, tile.dataset.columnCoor);
         tile.textContent = Gameboard.board[tile.dataset.rowCoor][tile.dataset.columnCoor].mark
-        gameController.checkWinner();
+        gameController.checkWinner(resultOfGame);
     }));
 
     const reset = document.createElement("button");

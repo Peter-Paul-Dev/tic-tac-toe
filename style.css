@@ -10,11 +10,15 @@
 }
 
 .tile {
-    border: solid black 0.1rem;
+    border: solid black 0.15rem;
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 10rem;
+}
+
+p {
+    font-size: 3rem;
 }
