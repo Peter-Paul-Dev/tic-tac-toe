@@ -137,6 +137,7 @@ const displayController = (function () {
     const rows = 3;
     const columns = 3;
     const container = document.querySelector(".container");
+    const boardTiles = [];
 
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < columns; j++) {
@@ -148,12 +149,13 @@ const displayController = (function () {
             tileOfBoard.dataset.rowCoor = tileRowCoordinate;
             tileOfBoard.dataset.columnCoor = tileColumnCoordinate;
             container.appendChild(tileOfBoard);
-
-            tileOfBoard.addEventListener("click", () => {
-                gameController.playerMarkCell(tileRowCoordinate, tileColumnCoordinate);
-                tileOfBoard.textContent = Gameboard.board[tileRowCoordinate][tileColumnCoordinate].mark
-                gameController.checkWinner();
-            })
+            boardTiles.push(tileOfBoard);
         }
     }
+
+     boardTiles.forEach(tile => tile.addEventListener("click", () => {
+                gameController.playerMarkCell(tile.dataset.rowCoor, tile.dataset.columnCoor);
+                tile.textContent = Gameboard.board[tile.dataset.rowCoor][tile.dataset.columnCoor].mark
+                gameController.checkWinner();
+            }))
 })();
