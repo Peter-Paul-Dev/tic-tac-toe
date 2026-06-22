@@ -9,7 +9,8 @@ const Gameboard = (function gameboard () {
         for (let j = 0; j < columns; j++) {
            let gridCell = {
                 mark: "",
-                coordinate: `${i}, ${j}`
+                rowCoordinate: i,
+                columnCoordinate: j,
             }
             board[i].push(gridCell);
         }
@@ -143,12 +144,25 @@ const displayController = (function () {
 
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < columns; j++) {
-            let coordinateOfTile = Gameboard.board[i][j].coordinate;
+            const tileRowCoordinate = Gameboard.board[i][j].rowCoordinate;
+            const tileColumnCoordinate = Gameboard.board[i][j].columnCoordinate;
 
-            const tile = document.createElement("div");
-            tile.classList.add("tile");
-            tile.dataset.coordinate = coordinateOfTile;
-            container.appendChild(tile);
+            const tileOfBoard = document.createElement("div");
+            tileOfBoard.classList.add("tile");
+            tileOfBoard.dataset.rowCoor = tileRowCoordinate;
+            tileOfBoard.dataset.columnCoor = tileColumnCoordinate;
+            container.appendChild(tileOfBoard);
+
+            tileOfBoard.addEventListener("click", () => {
+                const matchedRowTile = Gameboard.board.findIndex(outerArr => 
+                    outerArr.findIndex(tile => tile.rowCoordinate == tileOfBoard.dataset.rowCoor)
+                );
+
+                const matchedColumnTile = Gameboard.board.findIndex(outerArr => 
+                    outerArr.findIndex(tile => tile.rowCoordinate == tileOfBoard.dataset.rowCoor)
+                );
+
+            })
+        }
     }
-  }
 })();
