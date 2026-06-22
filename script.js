@@ -9,8 +9,8 @@ const Gameboard = (function gameboard () {
         for (let j = 0; j < columns; j++) {
            let gridCell = {
                 mark: "",
-                rowCoordinate: i,
-                columnCoordinate: j,
+                rowCoordinate: `${i}`,
+                columnCoordinate: `${j}`
             }
             board[i].push(gridCell);
         }
@@ -22,17 +22,17 @@ const Gameboard = (function gameboard () {
 const players = [
     {
         name: "Player One",
-        mark: "X"
+        mark: "X",
     },
 
     {
         name: "Player Two",
-        mark: "O"
+        mark: "O",
     },
 ];
 
 const gameController = (function () {
-    let activePlayer = players[0];
+    let activePlayer = players[0]
 
     function playerMarkCell (rowInput, columnInput) {
         const selectedCell = Gameboard.board[rowInput][columnInput];
@@ -42,23 +42,19 @@ const gameController = (function () {
             return;
         }
 
-        if (activePlayer == players [0]) {
+        if (activePlayer == players[0]) {
             selectedCell.mark = activePlayer.mark;
-            checkWinner();
             console.log(Gameboard.board);
-            
-            
+                    
         } else if (activePlayer == players[1]) {
             selectedCell.mark = "O";
-            checkWinner();
             console.log(Gameboard.board);
-            
         }
     }
 
     function changeActivePlayer () {
         if (activePlayer == players[0]) {
-            activePlayer = players [1];
+            activePlayer = players[1];
             return activePlayer;
         }
 
@@ -112,7 +108,6 @@ const gameController = (function () {
                     Gameboard.board[1][1].mark == activePlayer.mark &&
                     Gameboard.board[2][0].mark == activePlayer.mark,
         ]
-
          
         if (winningConditions.some(value => value == true)) {
 
@@ -126,21 +121,22 @@ const gameController = (function () {
 
             roundResult = `${activePlayer.name} is the winner!`;
             console.log(roundResult);
-            return roundResult;
 
-        } else {
+        } 
+        
+        else {
             changeActivePlayer();
         }
     }
 
-    return {playerMarkCell, checkWinner};
-})();
-
-const container = document.querySelector(".container");
+    return {playerMarkCell, checkWinner, changeActivePlayer, activePlayer, roundResult};
+    }
+)();
 
 const displayController = (function () {
     const rows = 3;
     const columns = 3;
+    const container = document.querySelector(".container");
 
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < columns; j++) {
@@ -154,14 +150,9 @@ const displayController = (function () {
             container.appendChild(tileOfBoard);
 
             tileOfBoard.addEventListener("click", () => {
-                const matchedRowTile = Gameboard.board.findIndex(outerArr => 
-                    outerArr.findIndex(tile => tile.rowCoordinate == tileOfBoard.dataset.rowCoor)
-                );
-
-                const matchedColumnTile = Gameboard.board.findIndex(outerArr => 
-                    outerArr.findIndex(tile => tile.rowCoordinate == tileOfBoard.dataset.rowCoor)
-                );
-
+                gameController.playerMarkCell(tileRowCoordinate, tileColumnCoordinate);
+                tileOfBoard.textContent = Gameboard.board[tileRowCoordinate][tileColumnCoordinate].mark
+                gameController.checkWinner();
             })
         }
     }
