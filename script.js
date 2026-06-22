@@ -39,17 +39,15 @@ const gameController = (function () {
         const selectedCell = Gameboard.board[rowInput][columnInput];
 
         if (selectedCell.mark !== "") {
-            console.log("This cell is already marked");
+            alert("This cell is already marked");
             return;
         }
 
         if (activePlayer == players[0]) {
             selectedCell.mark = activePlayer.mark;
-            console.log(Gameboard.board);
                     
         } else if (activePlayer == players[1]) {
             selectedCell.mark = "O";
-            console.log(Gameboard.board);
         }
     }
 
@@ -113,7 +111,6 @@ const gameController = (function () {
             activePlayer = players[0];
 
             Gameboard.board.forEach(outerArr => outerArr.forEach(innerArr => innerArr.mark = ""));
-            console.log(roundResult);
             para.textContent = roundResult;
         } 
         
@@ -168,4 +165,15 @@ const displayController = (function () {
     reset.textContent = "Clear board";
     reset.addEventListener("click", clearBoard);
     container.appendChild(reset);
+
+    document.getElementById("change-names").addEventListener("submit", function(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+
+    const playerOneName = formData.get("playerOneName");
+    const playerTwoName = formData.get("playerTwoName");
+        
+    players[0].name = playerOneName
+    players[1].name = playerTwoName;
+    });
 })();
