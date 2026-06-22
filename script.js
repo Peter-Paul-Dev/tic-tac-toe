@@ -113,15 +113,15 @@ const gameController = (function () {
 
             activePlayer = players[0];
 
-            Gameboard.board.map(outerArr => 
-                outerArr.map(innerArr => 
+            Gameboard.board.forEach(outerArr => 
+                outerArr.forEach(innerArr => 
                    innerArr.mark = ""
                 )
             )
 
             roundResult = `${activePlayer.name} is the winner!`;
             console.log(roundResult);
-
+            return roundResult;
         } 
         
         else {
@@ -153,9 +153,23 @@ const displayController = (function () {
         }
     }
 
+    function clearBoard() {
+            Gameboard.board.forEach(outerArr => 
+                outerArr.forEach(innerArr => 
+                   innerArr.mark = ""
+                )
+            );
+            boardTiles.forEach(tile => tile.textContent = "");
+        }
+
      boardTiles.forEach(tile => tile.addEventListener("click", () => {
-                gameController.playerMarkCell(tile.dataset.rowCoor, tile.dataset.columnCoor);
-                tile.textContent = Gameboard.board[tile.dataset.rowCoor][tile.dataset.columnCoor].mark
-                gameController.checkWinner();
-            }))
+        gameController.playerMarkCell(tile.dataset.rowCoor, tile.dataset.columnCoor);
+        tile.textContent = Gameboard.board[tile.dataset.rowCoor][tile.dataset.columnCoor].mark
+        gameController.checkWinner();
+    }));
+
+    const reset = document.createElement("button");
+    reset.textContent = "Clear board";
+    reset.addEventListener("click", clearBoard);
+    container.appendChild(reset);
 })();
